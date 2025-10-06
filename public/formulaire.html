@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Help Desk Lite</title>
   <link rel="stylesheet" href="style.css">
-  <script defer src="formulaire.js"></script>
+  <script defer src="/src/fonctionnalitesTickets.js"></script>
 </head>
 
 <body>
@@ -26,11 +26,12 @@
       <label for="titre">Titre</label><br>
       <input type="text" id="titre" name="titre"><br>
       <label for="description">Description</label><br>
-      <textarea id="description" name="description"></textarea>
+      <textarea id="description" name="description"></textarea><br>
       <label for="requester">Requester</label><br>
-      <input type="text" id="requester" name="requester">
-      <label for="priority">Priority</label><br>
+      <input type="text" id="requester" name="requester"><br>
       <!-- crée automatiquement à la date de la complétion du ticket
+       <label for="priority">Priority</label><br>
+      
        priorité automatiquement open
       <select id="priority" name="priority">
         <option value="basse">Basse</option>

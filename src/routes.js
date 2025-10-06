@@ -1,16 +1,122 @@
 const express = require('express');
 const path = require('path');
-const { addTicket } = require('./fonctionnalitesTickets');
+const { addTicket, getAllTicketsASC, getAllTicketsDESC, getTicketByStatus, getTicketByPriority, getTicketByRequester, getTicketByTitle, deleteTicket, updateTicket } = require('./fonctionnalitesTickets');
 const router = express.Router();
 
 router.post("/addTicket", (req, res) => {
-  const ticket = req.body;
+  // Accepter les données depuis le body OU les paramètres d'URL
+  const ticket = req.body && Object.keys(req.body).length > 0 ? req.body : req.query;
+
+  // Validation des données requises
+  if (!ticket || !ticket.title || !ticket.description || !ticket.requester) {
+    return res.status(400).json({
+      success: false,
+      error: "Données manquantes. Les champs 'title', 'description' et 'requester' sont obligatoires."
+    });
+  }
+
+  // Validation des types
+  if (typeof ticket.title !== 'string' || typeof ticket.description !== 'string' || typeof ticket.requester !== 'string') {
+    return res.status(400).json({
+      success: false,
+      error: "Les champs 'title', 'description' et 'requester' doivent être des chaînes de caractères."
+    });
+  }
+
   addTicket(ticket)
     .then(result => {
       res.json({ success: true, result: result });
     })
     .catch(err => {
       console.error('Erreur lors de l\'ajout du ticket:', err);
+      res.status(500).json({ success: false, error: err.message });
+    });
+})
+
+router.get("/getAllTicketsASC", (req, res) => {
+  getAllTicketsASC()
+    .then(result => {
+      res.json({ success: true, result: result });
+    })
+    .catch(err => {
+      console.error('Erreur lors de la récupération des tickets:', err);
+      res.status(500).json({ success: false, error: err.message });
+    });
+})
+
+router.get("/getAllTicketsDESC", (req, res) => {
+  getAllTicketsDESC()
+    .then(result => {
+      res.json({ success: true, result: result });
+    })
+    .catch(err => {
+      console.error('Erreur lors de la récupération des tickets:', err);
+      res.status(500).json({ success: false, error: err.message });
+    });
+})
+
+router.get("/getTicketByStatus", (req, res) => {
+  getTicketByStatus(req.query.status)
+    .then(result => {
+      res.json({ success: true, result: result });
+    })
+    .catch(err => {
+      console.error('Erreur lors de la récupération des tickets:', err);
+      res.status(500).json({ success: false, error: err.message });
+    });
+})
+
+router.get("/getTicketByPriority", (req, res) => {
+  getTicketByPriority(req.query.priority)
+    .then(result => {
+      res.json({ success: true, result: result });
+    })
+    .catch(err => {
+      console.error('Erreur lors de la récupération des tickets:', err);
+      res.status(500).json({ success: false, error: err.message });
+    });
+})
+
+router.get("/getTicketByRequester", (req, res) => {
+  getTicketByRequester(req.query.requester)
+    .then(result => {
+      res.json({ success: true, result: result });
+    })
+    .catch(err => {
+      console.error('Erreur lors de la récupération des tickets:', err);
+      res.status(500).json({ success: false, error: err.message });
+    });
+})
+
+router.get("/getTicketByTitle", (req, res) => {
+  getTicketByTitle(req.query.title)
+    .then(result => {
+      res.json({ success: true, result: result });
+    })
+    .catch(err => {
+      console.error('Erreur lors de la récupération des tickets:', err);
+      res.status(500).json({ success: false, error: err.message });
+    });
+})
+
+router.get("/deleteTicket", (req, res) => {
+  deleteTicket(req.query.id)
+    .then(result => {
+      res.json({ success: true, result: result });
+    })
+    .catch(err => {
+      console.error('Erreur lors de la suppression du ticket:', err);
+      res.status(500).json({ success: false, error: err.message });
+    });
+})
+
+router.get("/updateTicket", (req, res) => {
+  updateTicket(req.query.id, req.query.ticket)
+    .then(result => {
+      res.json({ success: true, result: result });
+    })
+    .catch(err => {
+      console.error('Erreur lors de la mise à jour du ticket:', err);
       res.status(500).json({ success: false, error: err.message });
     });
 })

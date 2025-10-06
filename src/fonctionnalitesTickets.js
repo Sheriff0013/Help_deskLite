@@ -52,5 +52,109 @@ function addTicket(ticket) {
   });
 }
 
+function getAllTicketsASC() {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM ticket ORDER BY createdAt ASC`;
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
 
-module.exports = { addTicket };
+function getAllTicketsDESC() {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM ticket ORDER BY createdAt DESC`;
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
+
+function getTicketByStatus(status) {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM ticket WHERE status = ?`;
+    db.all(sql, [status], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
+
+function getTicketByPriority(priority) {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM ticket WHERE priority = ?`;
+    db.all(sql, [priority], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
+
+function updateTicket(id, ticket) {
+  return new Promise((resolve, reject) => {
+    const sql = `UPDATE ticket SET title = ?, description = ?, requester = ?, priority = ?, status = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ?`;
+    db.run(sql, [ticket.title, ticket.description, ticket.requester, ticket.priority, ticket.status, id], (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ id: id, changes: this.changes });
+      }
+    });
+  });
+}
+
+function getTicketByRequester(requester) {
+
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM ticket WHERE requester = ?`;
+    db.all(sql, [requester], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
+
+function getTicketByTitle(title) {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM ticket WHERE title = ?`;
+    db.all(sql, [title], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
+
+function deleteTicket(id) {
+  return new Promise((resolve, reject) => {
+    const sql = `DELETE FROM ticket WHERE id = ?`;
+    db.run(sql, [id], (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ id: id, changes: this.changes });
+      }
+    });
+  });
+}
+
+module.exports = { addTicket, getAllTicketsASC, getAllTicketsDESC, getTicketByStatus, getTicketByPriority, updateTicket, getTicketByRequester, getTicketByTitle, deleteTicket };

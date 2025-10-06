@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Sheriff0013/Help_deskLite#readme",
   "dependencies": {
     "express": "^5.1.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "sqlite3": "^5.1.7"
   }
 }

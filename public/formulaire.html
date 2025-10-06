@@ -20,7 +20,7 @@
     </ul>
   </nav>
   <main>
-    <h2 id="titre-presentation">Bienvenue dans votre outil de gestion des tickets</h2>
+    <h2 id="titre-presentation">Bienvenue dans votre outil de gestion des demandes</h2>
     <h3 id="titre-formulaire">Ajouter un ticket</h3>
     <form id="formulaire-ticket">
       <label for="titre">Titre</label><br>
@@ -29,16 +29,14 @@
       <textarea id="description" name="description"></textarea><br>
       <label for="requester">Requester</label><br>
       <input type="text" id="requester" name="requester"><br>
-      <!-- crée automatiquement à la date de la complétion du ticket
-       <label for="priority">Priority</label><br>
-      
-       priorité automatiquement open
       <select id="priority" name="priority">
         <option value="basse">Basse</option>
         <option value="moyenne">Moyenne</option>
         <option value="haute">Haute</option>
+        <label for="priority">Priority</label><br>
       </select>
-      
+      <!-- crée automatiquement à la date de la complétion du ticket
+       status automatiquement open   
       <label for="createdAt">CreatedAt</label>
       <input type="date" id="createdAt" name="createdAt">
       <label for="updatedAt">UpdatedAt</label>

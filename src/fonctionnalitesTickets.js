@@ -133,6 +133,14 @@ async function getTicketByTitle(title) {
   return allTickets;
 }
 
+//Récupérer un ticket par son ID
+async function getTicketById(id) {
+  const sql = `SELECT * FROM ticket WHERE id = ?`;
+  const getAsync = promisify(db.get.bind(db));
+  const ticket = await getAsync(sql, [id]);
+  return ticket;
+}
+
 
 //Mettre à jour un ticket
 async function updateTicket(id, ticket) {
@@ -183,4 +191,4 @@ async function deleteTicket(id) {
 }
 
 
-module.exports = { db, addTicket, addTicketToDatabase, getAllTicketsASC, getAllTicketsDESC, updateTicket, deleteTicket, getTicketByStatus, getTicketByPriority, getTicketByRequester, getTicketByTitle };
+module.exports = { db, addTicket, addTicketToDatabase, getAllTicketsASC, getAllTicketsDESC, updateTicket, deleteTicket, getTicketByStatus, getTicketByPriority, getTicketByRequester, getTicketByTitle, getTicketById };

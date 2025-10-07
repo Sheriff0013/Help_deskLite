@@ -100,3 +100,161 @@ nav a:hover {
   text-decoration: underline;
 }
 
+/* Styles pour le formulaire de modification */
+#formulaire-modification {
+  background-color: #f8f9fa;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 15px;
+}
+
+#formulaire-modification h4 {
+  color: #007bff;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  height: 80px;
+  resize: vertical;
+}
+
+.form-group select {
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  flex: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#btn-sauvegarder {
+  background-color: #28a745;
+  color: white;
+}
+
+#btn-sauvegarder:hover {
+  background-color: #218838;
+}
+
+#btn-supprimer {
+  background-color: #dc3545;
+  color: white;
+}
+
+#btn-supprimer:hover {
+  background-color: #c82333;
+}
+
+#btn-annuler {
+  background-color: #6c757d;
+  color: white;
+}
+
+#btn-annuler:hover {
+  background-color: #5a6268;
+}
+
+/* Styles pour les formulaires de filtres */
+.formulaire-filtre {
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.formulaire-filtre h4 {
+  color: #495057;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.1em;
+}
+
+.formulaire-filtre .form-group {
+  margin-bottom: 10px;
+}
+
+.formulaire-filtre .form-group label {
+  font-size: 0.9em;
+  color: #495057;
+}
+
+.formulaire-filtre .form-group input,
+.formulaire-filtre .form-group select {
+  padding: 6px 10px;
+  font-size: 0.9em;
+}
+
+.formulaire-filtre .form-actions {
+  margin-top: 15px;
+}
+
+.formulaire-filtre .form-actions button {
+  padding: 8px 12px;
+  font-size: 0.9em;
+}
+
+.formulaire-filtre #btn-filtrer-titre,
+.formulaire-filtre #btn-filtrer-requester,
+.formulaire-filtre #btn-filtrer-priority,
+.formulaire-filtre #btn-filtrer-status {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.formulaire-filtre #btn-filtrer-titre:hover,
+.formulaire-filtre #btn-filtrer-requester:hover,
+.formulaire-filtre #btn-filtrer-priority:hover,
+.formulaire-filtre #btn-filtrer-status:hover {
+  background-color: #138496;
+}
+
+.formulaire-filtre #btn-annuler-filtre-titre,
+.formulaire-filtre #btn-annuler-filtre-requester,
+.formulaire-filtre #btn-annuler-filtre-priority,
+.formulaire-filtre #btn-annuler-filtre-status {
+  background-color: #6c757d;
+  color: white;
+}
+
+.formulaire-filtre #btn-annuler-filtre-titre:hover,
+.formulaire-filtre #btn-annuler-filtre-requester:hover,
+.formulaire-filtre #btn-annuler-filtre-priority:hover,
+.formulaire-filtre #btn-annuler-filtre-status:hover {
+  background-color: #5a6268;
+}
+

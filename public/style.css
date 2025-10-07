@@ -1,0 +1,102 @@
+/* Styles pour la liste des tickets */
+#liste-tickets {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+#liste-tickets li {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#liste-tickets li strong {
+  color: #333;
+  font-size: 1.1em;
+}
+
+#liste-tickets li em {
+  color: #666;
+  font-weight: bold;
+}
+
+/* Styles pour les boutons */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Styles généraux */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+header {
+  background-color: #343a40;
+  color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 100;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#voir-tickets {
+  position: sticky;
+  top: 60px; /* Après le nav */
+  background-color: white;
+  z-index: 99;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+#modification-ticket {
+  position: sticky;
+  top: 200px; /* Après voir-tickets */
+  background-color: white;
+  z-index: 98;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+

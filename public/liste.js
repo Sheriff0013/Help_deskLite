@@ -3,6 +3,8 @@ let button_croissant, button_decroissant, button_titre, button_requester, button
 
 // Initialiser les éléments DOM après le chargement de la page
 function initializeElements() {
+  console.log('Initialisation des éléments DOM...');
+
   button_croissant = document.getElementById('trier-par-date-asc');
   button_decroissant = document.getElementById('trier-par-date-desc');
   button_titre = document.getElementById('filtrer-par-titre');
@@ -13,6 +15,11 @@ function initializeElements() {
   button_update = document.getElementById('update-ticket');
   liste_tickets = document.getElementById('liste-tickets');
 
+  console.log('Éléments trouvés:');
+  console.log('- button_croissant:', button_croissant);
+  console.log('- button_decroissant:', button_decroissant);
+  console.log('- liste_tickets:', liste_tickets);
+
   // Vérifier que tous les éléments existent
   if (!button_croissant) console.error('Bouton croissant non trouvé');
   if (!button_decroissant) console.error('Bouton décroissant non trouvé');
@@ -21,12 +28,22 @@ function initializeElements() {
 
 // Fonction pour afficher les tickets
 function displayTickets(tickets) {
+  console.log('displayTickets appelée avec:', tickets);
+  console.log('liste_tickets élément:', liste_tickets);
+
+  if (!liste_tickets) {
+    console.error('ERREUR: liste_tickets est null ou undefined');
+    return;
+  }
+
   if (!tickets || tickets.length === 0) {
+    console.log('Aucun ticket à afficher');
     liste_tickets.innerHTML = '<li>Aucun ticket trouvé</li>';
     return;
   }
 
-  liste_tickets.innerHTML = tickets.map(ticket => `
+  console.log(`Affichage de ${tickets.length} tickets`);
+  const htmlContent = tickets.map(ticket => `
     <li>
       <strong>#${ticket.id} - ${ticket.title}</strong><br>
       <em>Description:</em> ${ticket.description}<br>
@@ -37,6 +54,10 @@ function displayTickets(tickets) {
       <em>Mis à jour le:</em> ${ticket.updatedAt}
     </li>
   `).join('');
+
+  console.log('HTML généré:', htmlContent);
+  liste_tickets.innerHTML = htmlContent;
+  console.log('HTML inséré dans liste_tickets');
 }
 
 // Charger tous les tickets au chargement de la page

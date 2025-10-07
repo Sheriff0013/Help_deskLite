@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const { promisify } = require('util');
 
 // Connexion à la base de données
 const db = new sqlite3.Database(path.join(__dirname, '..', 'tickets.db'), (err) => {
@@ -36,21 +37,27 @@ function initDatabase() {
 }
 
 // Fonction pour insérer directement dans la base (utilisée par les routes)
-function addTicketToDatabase(ticket) {
-  return new Promise((resolve, reject) => {
-    const sql = `INSERT INTO ticket (title, description, requester, priority) 
-                   VALUES (?, ?, ?, ?)`;
+async function addTicketToDatabase(ticket) {
+  const sql = `INSERT INTO ticket (title, description, requester, priority) 
+                 VALUES (?, ?, ?, ?)`;
 
-    db.run(sql, [ticket.title, ticket.description, ticket.requester, ticket.priority],
-      function (err) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({ id: this.lastID, ...ticket });
+  try {
+    const result = await new Promise((resolve, reject) => {
+      db.run(sql, [ticket.title, ticket.description, ticket.requester, ticket.priority],
+        function (err) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve({ lastID: this.lastID, changes: this.changes });
+          }
         }
-      }
-    );
-  });
+      );
+    });
+
+    return { id: result.lastID, ...ticket };
+  } catch (err) {
+    throw err;
+  }
 }
 
 // Fonction avec fetch pour les appels externes
@@ -76,109 +83,104 @@ async function addTicket(ticket) {
   }
 }
 
-function getAllTicketsASC() {
-  return new Promise((resolve, reject) => {
-    const sql = `SELECT * FROM ticket ORDER BY createdAt ASC`;
-    db.all(sql, [], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
+//Tout les tickets en ordre croissant
+async function getAllTicketsASC() {
+  const sql = `SELECT * FROM ticket ORDER BY createdAt ASC`;
+  const allTAsync = promisify(db.all.bind(db));
+  const allTickets = await allTAsync(sql);
+  return allTickets;
 }
 
-function getAllTicketsDESC() {
-  return new Promise((resolve, reject) => {
-    const sql = `SELECT * FROM ticket ORDER BY createdAt DESC`;
-    db.all(sql, [], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
+//Tout les tickets en ordre décroissant
+async function getAllTicketsDESC() {
+  const sql = `SELECT * FROM ticket ORDER BY createdAt DESC`;
+  const allAsync = promisify(db.all.bind(db));
+  const allTickets = await allAsync(sql);
+  return allTickets;
 }
 
-function getTicketByStatus(status) {
-  return new Promise((resolve, reject) => {
-    const sql = `SELECT * FROM ticket WHERE status = ?`;
-    db.all(sql, [status], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
+
+//Les tickets filtrés par status
+async function getTicketByStatus(status) {
+  const sql = `SELECT * FROM ticket WHERE status = ?`;
+  const allAsync = promisify(db.all.bind(db));
+  const allTickets = await allAsync(sql, [status]);
+  return allTickets;
 }
 
-function getTicketByPriority(priority) {
-  return new Promise((resolve, reject) => {
-    const sql = `SELECT * FROM ticket WHERE priority = ?`;
-    db.all(sql, [priority], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
+
+//Les tickets filtrés par priorité
+async function getTicketByPriority(priority) {
+  const sql = `SELECT * FROM ticket WHERE priority = ?`;
+  const allAsync = promisify(db.all.bind(db));
+  const allTickets = await allAsync(sql, [priority]);
+  return allTickets;
 }
 
-function updateTicket(id, ticket) {
-  return new Promise((resolve, reject) => {
-    const sql = `UPDATE ticket SET title = ?, description = ?, requester = ?, priority = ?, status = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ?`;
-    db.run(sql, [ticket.title, ticket.description, ticket.requester, ticket.priority, ticket.status, id], (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({ id: id, changes: this.changes });
-      }
-    });
-  });
+//Les ticket filtrés par requester
+async function getTicketByRequester(requester) {
+  const sql = `SELECT * FROM ticket WHERE requester = ?`;
+  const allAsync = promisify(db.all.bind(db));
+  const allTickets = await allAsync(sql, [requester]);
+  return allTickets;
 }
 
-function getTicketByRequester(requester) {
-
-  return new Promise((resolve, reject) => {
-    const sql = `SELECT * FROM ticket WHERE requester = ?`;
-    db.all(sql, [requester], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
+//Les tickets filtrés par titre
+async function getTicketByTitle(title) {
+  const sql = `SELECT * FROM ticket WHERE title = ?`;
+  const allAsync = promisify(db.all.bind(db));
+  const allTickets = await allAsync(sql, [title]);
+  return allTickets;
 }
 
-function getTicketByTitle(title) {
-  return new Promise((resolve, reject) => {
-    const sql = `SELECT * FROM ticket WHERE title = ?`;
-    db.all(sql, [title], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
+
+//Mettre à jour un ticket
+async function updateTicket(id, ticket) {
+  const sql = `UPDATE ticket SET title = ?, description = ?, requester = ?, priority = ?, status = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ?`;
+
+  try {
+    const result = await new Promise((resolve, reject) => {
+      db.run(sql, [ticket.title, ticket.description, ticket.requester, ticket.priority, ticket.status, id],
+        function (err) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve({ lastID: this.lastID, changes: this.changes });
+          }
+        }
+      );
     });
-  });
+
+    return { id: id, changes: result.changes };
+  } catch (err) {
+    throw err;
+  }
 }
 
-function deleteTicket(id) {
-  return new Promise((resolve, reject) => {
-    const sql = `DELETE FROM ticket WHERE id = ?`;
-    db.run(sql, [id], (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({ id: id, changes: this.changes });
-      }
+
+
+//Supprimer un ticket avec son id
+async function deleteTicket(id) {
+  const sql = `DELETE FROM ticket WHERE id = ?`;
+
+  try {
+    const result = await new Promise((resolve, reject) => {
+      db.run(sql, [id],
+        function (err) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve({ lastID: this.lastID, changes: this.changes });
+          }
+        }
+      );
     });
-  });
+
+    return { id: id, changes: result.changes };
+  } catch (err) {
+    throw err;
+  }
 }
 
-module.exports = { addTicket, addTicketToDatabase, getAllTicketsASC, getAllTicketsDESC, getTicketByStatus, getTicketByPriority, updateTicket, getTicketByRequester, getTicketByTitle, deleteTicket };
+
+module.exports = { db, addTicket, addTicketToDatabase, getAllTicketsASC, getAllTicketsDESC, updateTicket, deleteTicket, getTicketByStatus, getTicketByPriority, getTicketByRequester, getTicketByTitle };

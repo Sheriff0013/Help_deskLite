@@ -3,7 +3,7 @@ const path = require('path');
 const { addTicket, addTicketToDatabase, getAllTicketsASC, getAllTicketsDESC, getTicketByStatus, getTicketByPriority, getTicketByRequester, getTicketByTitle, deleteTicket, updateTicket } = require('./fonctionnalitesTickets');
 const router = express.Router();
 
-router.post("/addTicket", (req, res) => {
+router.post("/addTicket", async (req, res) => {
   // Accepter les données depuis le body OU les paramètres d'URL
   const ticket = req.body && Object.keys(req.body).length > 0 ? req.body : req.query;
 
@@ -23,14 +23,13 @@ router.post("/addTicket", (req, res) => {
     });
   }
 
-  addTicketToDatabase(ticket)
-    .then(result => {
-      res.json({ success: true, result: result });
-    })
-    .catch(err => {
-      console.error('Erreur lors de l\'ajout du ticket:', err);
-      res.status(500).json({ success: false, error: err.message });
-    });
+  try {
+    const result = await addTicketToDatabase(ticket);
+    res.json({ success: true, result: result });
+  } catch (err) {
+    console.error('Erreur lors de l\'ajout du ticket:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 })
 
 router.get("/getAllTicketsASC", (req, res) => {
@@ -55,6 +54,7 @@ router.get("/getAllTicketsDESC", (req, res) => {
     });
 })
 
+
 router.get("/getTicketByStatus", (req, res) => {
   getTicketByStatus(req.query.status)
     .then(result => {
@@ -65,6 +65,7 @@ router.get("/getTicketByStatus", (req, res) => {
       res.status(500).json({ success: false, error: err.message });
     });
 })
+
 
 router.get("/getTicketByPriority", (req, res) => {
   getTicketByPriority(req.query.priority)

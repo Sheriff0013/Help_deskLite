@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Help Desk Lite</title>
   <link rel="stylesheet" href="style.css">
-  <script defer src="/src/fonctionnalitesTickets.js"></script>
+  <script defer src="liste.js"></script>
 </head>
 
 <body>
@@ -21,11 +21,25 @@
   </nav>
   <main>
     <h3 id="titre-liste">Liste des tickets</h3>
+    <div id="voir-tickets">
+      <h4>Afficher tous les tickets</h4>
+      <button id="trier-par-date-asc">triés par date du plus ancien</button>
+      <button id="trier-par-date-desc">triés par date du plus recent</button><br>
+      <h4>Afficher les tickets:</h4>
+      <button id="filtrer-par-titre">filtrés par titre</button>
+      <button id="filtrer-par-requester">filtrés par requester</button><br>
+      <button id="filtrer-par-priority">filtrés par priority</button>
+      <button id="filtrer-par-status">filtrés par status</button>
+    </div>
+    <div id="modification-ticket">
+      <button id="delete-ticket">supprimer un ticket</button>
+      <button id="update-ticket">mettre à jour un ticket</button>
+    </div>
     <ul id="liste-tickets">
     </ul>
   </main>
   <footer>
-    <p id="pied-page">Copyright 2025 - Tous droits réservés</p>
+    <p id="pied-page">Usage exclusif à NovaTech Solutions,Copyright 2025 - Tous droits réservés</p>
   </footer>
 
 </body>

@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { addTicket, getAllTicketsASC, getAllTicketsDESC, getTicketByStatus, getTicketByPriority, getTicketByRequester, getTicketByTitle, deleteTicket, updateTicket } = require('./fonctionnalitesTickets');
+const { addTicket, addTicketToDatabase, getAllTicketsASC, getAllTicketsDESC, getTicketByStatus, getTicketByPriority, getTicketByRequester, getTicketByTitle, deleteTicket, updateTicket } = require('./fonctionnalitesTickets');
 const router = express.Router();
 
 router.post("/addTicket", (req, res) => {
@@ -23,7 +23,7 @@ router.post("/addTicket", (req, res) => {
     });
   }
 
-  addTicket(ticket)
+  addTicketToDatabase(ticket)
     .then(result => {
       res.json({ success: true, result: result });
     })

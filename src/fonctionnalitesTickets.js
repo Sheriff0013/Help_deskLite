@@ -19,7 +19,7 @@ function initDatabase() {
       title TEXT NOT NULL,
       description TEXT NOT NULL,
       requester TEXT NOT NULL,
-      priority TEXT,
+      priority TEXT CHECK (priority IN ('haute', 'moyenne', 'basse')),
       status TEXT DEFAULT 'open',
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
       updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -35,7 +35,8 @@ function initDatabase() {
   });
 }
 
-function addTicket(ticket) {
+// Fonction pour insérer directement dans la base (utilisée par les routes)
+function addTicketToDatabase(ticket) {
   return new Promise((resolve, reject) => {
     const sql = `INSERT INTO ticket (title, description, requester, priority) 
                    VALUES (?, ?, ?, ?)`;
@@ -50,6 +51,29 @@ function addTicket(ticket) {
       }
     );
   });
+}
+
+// Fonction avec fetch pour les appels externes
+async function addTicket(ticket) {
+  try {
+    const response = await fetch('http://localhost:3000/api/addTicket', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(ticket)
+    });
+
+    const data = await response.json();
+
+    if (data.success && data.result !== undefined) {
+      return data.result;
+    } else {
+      throw new Error(data.error || 'Erreur lors de l\'ajout du ticket');
+    }
+  } catch (error) {
+    throw error;
+  }
 }
 
 function getAllTicketsASC() {
@@ -157,4 +181,4 @@ function deleteTicket(id) {
   });
 }
 
-module.exports = { addTicket, getAllTicketsASC, getAllTicketsDESC, getTicketByStatus, getTicketByPriority, updateTicket, getTicketByRequester, getTicketByTitle, deleteTicket };
+module.exports = { addTicket, addTicketToDatabase, getAllTicketsASC, getAllTicketsDESC, getTicketByStatus, getTicketByPriority, updateTicket, getTicketByRequester, getTicketByTitle, deleteTicket };

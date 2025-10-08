@@ -35,6 +35,40 @@ button {
   cursor: pointer;
 }
 
+/* Styles pour les boutons de filtres responsives */
+.boutons-filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.boutons-filtres button {
+  margin: 0;
+  flex: 1;
+  min-width: 150px;
+}
+
+/* Media queries pour le responsive */
+@media (max-width: 768px) {
+  .boutons-filtres {
+    flex-direction: column;
+  }
+  
+  .boutons-filtres button {
+    flex: none;
+    min-width: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .boutons-filtres button {
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+}
+
 button:hover {
   background-color: #0056b3;
 }

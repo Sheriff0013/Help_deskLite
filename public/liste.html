@@ -22,9 +22,26 @@
   <main>
     <div id="voir-tickets">
       <h3 id="titre-liste">Liste des tickets</h3>
-      <h4>Afficher tous les tickets</h4>
-      <button id="trier-par-date-asc">triés par date du plus ancien</button>
-      <button id="trier-par-date-desc">triés par date du plus recent</button><br>
+
+      <!-- Section responsive pour les boutons de tri et modification -->
+      <div class="section-boutons-principaux">
+        <div class="boutons-tri">
+          <h4>Afficher tous les tickets</h4>
+          <div class="boutons-tri-container">
+            <button id="trier-par-date-asc">triés par date du plus ancien</button>
+            <button id="trier-par-date-desc">triés par date du plus recent</button>
+          </div>
+        </div>
+
+        <div class="boutons-modification">
+          <h4>Modifier/Supprimer un ticket</h4>
+          <div class="boutons-modification-container">
+            <button id="delete-ticket">supprimer un ticket</button>
+            <button id="update-ticket">mettre à jour un ticket</button>
+          </div>
+        </div>
+      </div>
+
       <h4>Afficher les tickets:</h4>
       <div class="boutons-filtres">
         <button id="filtrer-par-titre">filtrés par titre</button>
@@ -99,10 +116,6 @@
           </div>
         </form>
       </div>
-    </div>
-    <div id="modification-ticket">
-      <button id="delete-ticket">supprimer un ticket</button>
-      <button id="update-ticket">mettre à jour un ticket</button>
     </div>
 
     <!-- Formulaire masqué pour les modifications -->

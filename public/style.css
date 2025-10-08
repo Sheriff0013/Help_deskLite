@@ -35,6 +35,41 @@ button {
   cursor: pointer;
 }
 
+/* Styles pour la section principale des boutons (tri + modification) */
+.section-boutons-principaux {
+  display: flex;
+  gap: 30px;
+  margin: 20px 0;
+  align-items: flex-start;
+}
+
+.boutons-tri,
+.boutons-modification {
+  flex: 1;
+}
+
+.boutons-tri h4,
+.boutons-modification h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #495057;
+  font-size: 1.1em;
+}
+
+.boutons-tri-container,
+.boutons-modification-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.boutons-tri-container button,
+.boutons-modification-container button {
+  margin: 0;
+  flex: 1;
+  min-width: 120px;
+}
+
 /* Styles pour les boutons de filtres responsives */
 .boutons-filtres {
   display: flex;
@@ -50,6 +85,25 @@ button {
 }
 
 /* Media queries pour le responsive */
+@media (max-width: 1024px) {
+  .section-boutons-principaux {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .boutons-tri-container,
+  .boutons-modification-container {
+    flex-direction: column;
+  }
+  
+  .boutons-tri-container button,
+  .boutons-modification-container button {
+    flex: none;
+    min-width: auto;
+    width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .boutons-filtres {
     flex-direction: column;
@@ -62,10 +116,56 @@ button {
   }
 }
 
+@media (max-width: 768px) {
+  /* Désactiver le sticky sur les petits écrans pour gagner en visibilité */
+  nav {
+    position: static;
+  }
+  
+  #voir-tickets {
+    position: static !important;
+    top: auto !important;
+    margin-bottom: 20px;
+  }
+  
+  #modification-ticket {
+    position: static !important;
+    top: auto !important;
+    margin-bottom: 20px;
+  }
+  
+  /* S'assurer que tous les éléments à l'intérieur ne sont pas sticky */
+  .section-boutons-principaux,
+  .boutons-filtres,
+  .boutons-tri-container,
+  .boutons-modification-container {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
 @media (max-width: 480px) {
-  .boutons-filtres button {
+  .boutons-filtres button,
+  .boutons-tri-container button,
+  .boutons-modification-container button {
     padding: 8px 12px;
     font-size: 0.9em;
+  }
+  
+  /* Réduire les marges et paddings sur mobile pour optimiser l'espace */
+  #voir-tickets {
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .section-boutons-principaux {
+    margin: 15px 0;
+  }
+  
+  .boutons-tri h4,
+  .boutons-modification h4 {
+    font-size: 1em;
+    margin-bottom: 8px;
   }
 }
 

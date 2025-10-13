@@ -31,150 +31,138 @@
             <button id="trier-par-date-asc">triés par date du plus ancien</button>
             <button id="trier-par-date-desc">triés par date du plus recent</button>
           </div>
+
+          <h4>Afficher les tickets:</h4>
+          <div class="boutons-filtres">
+            <button id="filtrer-par-titre">filtrés par titre</button>
+            <button id="filtrer-par-requester">filtrés par auteur</button>
+            <button id="filtrer-par-priority">filtrés par priority</button>
+            <button id="filtrer-par-status">filtrés par status</button>
+          </div>
+
+          <!-- Formulaires de filtres cachés, avec dysplay none -->
+          <div id="formulaire-filtre-titre" class="formulaire-filtre">
+            <h4>Filtrer par titre</h4>
+            <form id="form-filtre-titre">
+              <div class="form-group">
+                <label for="filtre-titre">Titre à rechercher :</label>
+                <input type="text" id="filtre-titre" name="titre" placeholder="Entrez le titre">
+              </div>
+              <div class="form-actions">
+                <button type="button" id="btn-filtrer-titre">Filtrer</button>
+                <button type="button" id="btn-annuler-filtre-titre">Annuler</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="formulaire-filtre-requester" class="formulaire-filtre">
+            <h4>Filtrer par demandeur</h4>
+            <form id="form-filtre-requester">
+              <div class="form-group">
+                <label for="filtre-requester">Nom de l'auteur :</label>
+                <input type="text" id="filtre-requester" name="requester" placeholder="Entrez le nom du demandeur">
+              </div>
+              <div class="form-actions">
+                <button type="button" id="btn-filtrer-requester">Filtrer</button>
+                <button type="button" id="btn-annuler-filtre-requester">Annuler</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="formulaire-filtre-priority" class="formulaire-filtre">
+            <h4>Filtrer par priorité</h4>
+            <form id="form-filtre-priority">
+              <div class="form-group">
+                <label for="filtre-priority">Priorité :</label>
+                <select id="filtre-priority" name="priority">
+                  <option value="">Sélectionnez une priorité</option>
+                  <option value="haute">Haute</option>
+                  <option value="moyenne">Moyenne</option>
+                  <option value="basse">Basse</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button type="button" id="btn-filtrer-priority">Filtrer</button>
+                <button type="button" id="btn-annuler-filtre-priority">Annuler</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="formulaire-filtre-status" class="formulaire-filtre">
+            <h4>Filtrer par statut</h4>
+            <form id="form-filtre-status">
+              <div class="form-group">
+                <label for="filtre-status">Statut :</label>
+                <select id="filtre-status" name="status">
+                  <option value="">Sélectionnez un statut</option>
+                  <option value="open">Ouvert</option>
+                  <option value="in_progress">En cours</option>
+                  <option value="closed">Fermé</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button type="button" id="btn-filtrer-status">Filtrer</button>
+                <button type="button" id="btn-annuler-filtre-status">Annuler</button>
+              </div>
+            </form>
+          </div>
         </div>
 
-        <div class="boutons-modification">
+        <!-- Formulaire masqué pour les modifications -->
+        <div id="formulaire-modification">
           <h4>Modifier/Supprimer un ticket</h4>
-          <div class="boutons-modification-container">
-            <button id="delete-ticket">supprimer un ticket</button>
-            <button id="update-ticket">mettre à jour un ticket</button>
-          </div>
+          <form id="form-modification">
+            <div class="form-group">
+              <label for="ticket-id">ID du ticket :</label>
+              <input type="number" id="ticket-id" name="id" required readonly>
+              <button type="button" id="btn-charger-ticket">Charger les données</button>
+            </div>
+
+            <div class="form-group">
+              <label for="ticket-title">Titre :</label>
+              <input type="text" id="ticket-title" name="title" required>
+            </div>
+
+            <div class="form-group">
+              <label for="ticket-description">Description :</label>
+              <textarea id="ticket-description" name="description" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="ticket-requester">Demandeur :</label>
+              <input type="text" id="ticket-requester" name="requester" required>
+            </div>
+
+            <div class="form-group">
+              <label for="ticket-priority">Priorité :</label>
+              <select id="ticket-priority" name="priority" required>
+                <option value="">Sélectionnez une priorité</option>
+                <option value="haute">Haute</option>
+                <option value="moyenne">Moyenne</option>
+                <option value="basse">Basse</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="ticket-status">Statut :</label>
+              <select id="ticket-status" name="status" required>
+                <option value="">Sélectionnez un statut</option>
+                <option value="open">Ouvert</option>
+                <option value="in_progress">En cours</option>
+                <option value="closed">Fermé</option>
+              </select>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" id="btn-sauvegarder">Sauvegarder</button>
+              <button type="button" id="btn-supprimer">Supprimer</button>
+              <button type="button" id="btn-annuler">Annuler</button>
+            </div>
+          </form>
         </div>
       </div>
-
-      <h4>Afficher les tickets:</h4>
-      <div class="boutons-filtres">
-        <button id="filtrer-par-titre">filtrés par titre</button>
-        <button id="filtrer-par-requester">filtrés par auteur</button>
-        <button id="filtrer-par-priority">filtrés par priority</button>
-        <button id="filtrer-par-status">filtrés par status</button>
-      </div>
-
-      <!-- Formulaires de filtres cachés -->
-      <div id="formulaire-filtre-titre" class="formulaire-filtre" style="display: none;">
-        <h4>Filtrer par titre</h4>
-        <form id="form-filtre-titre">
-          <div class="form-group">
-            <label for="filtre-titre">Titre à rechercher :</label>
-            <input type="text" id="filtre-titre" name="titre" placeholder="Entrez le titre exact">
-          </div>
-          <div class="form-actions">
-            <button type="button" id="btn-filtrer-titre">Filtrer</button>
-            <button type="button" id="btn-annuler-filtre-titre">Annuler</button>
-          </div>
-        </form>
-      </div>
-
-      <div id="formulaire-filtre-requester" class="formulaire-filtre" style="display: none;">
-        <h4>Filtrer par demandeur</h4>
-        <form id="form-filtre-requester">
-          <div class="form-group">
-            <label for="filtre-requester">Nom de l'auteur :</label>
-            <input type="text" id="filtre-requester" name="requester" placeholder="Entrez le nom du demandeur">
-          </div>
-          <div class="form-actions">
-            <button type="button" id="btn-filtrer-requester">Filtrer</button>
-            <button type="button" id="btn-annuler-filtre-requester">Annuler</button>
-          </div>
-        </form>
-      </div>
-
-      <div id="formulaire-filtre-priority" class="formulaire-filtre" style="display: none;">
-        <h4>Filtrer par priorité</h4>
-        <form id="form-filtre-priority">
-          <div class="form-group">
-            <label for="filtre-priority">Priorité :</label>
-            <select id="filtre-priority" name="priority">
-              <option value="">Sélectionnez une priorité</option>
-              <option value="haute">Haute</option>
-              <option value="moyenne">Moyenne</option>
-              <option value="basse">Basse</option>
-            </select>
-          </div>
-          <div class="form-actions">
-            <button type="button" id="btn-filtrer-priority">Filtrer</button>
-            <button type="button" id="btn-annuler-filtre-priority">Annuler</button>
-          </div>
-        </form>
-      </div>
-
-      <div id="formulaire-filtre-status" class="formulaire-filtre" style="display: none;">
-        <h4>Filtrer par statut</h4>
-        <form id="form-filtre-status">
-          <div class="form-group">
-            <label for="filtre-status">Statut :</label>
-            <select id="filtre-status" name="status">
-              <option value="">Sélectionnez un statut</option>
-              <option value="open">Ouvert</option>
-              <option value="in_progress">En cours</option>
-              <option value="closed">Fermé</option>
-            </select>
-          </div>
-          <div class="form-actions">
-            <button type="button" id="btn-filtrer-status">Filtrer</button>
-            <button type="button" id="btn-annuler-filtre-status">Annuler</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Formulaire masqué pour les modifications -->
-    <div id="formulaire-modification" style="display: none;">
-      <h4>Modifier/Supprimer un ticket</h4>
-      <form id="form-modification">
-        <div class="form-group">
-          <label for="ticket-id">ID du ticket :</label>
-          <input type="number" id="ticket-id" name="id" required>
-          <button type="button" id="btn-charger-ticket"
-            style="margin-left: 10px; padding: 5px 10px; background-color: #17a2b8; color: white; border: none; border-radius: 3px; cursor: pointer;">Charger
-            les données</button>
-        </div>
-
-        <div class="form-group">
-          <label for="ticket-title">Titre :</label>
-          <input type="text" id="ticket-title" name="title" required>
-        </div>
-
-        <div class="form-group">
-          <label for="ticket-description">Description :</label>
-          <textarea id="ticket-description" name="description" required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="ticket-requester">Demandeur :</label>
-          <input type="text" id="ticket-requester" name="requester" required>
-        </div>
-
-        <div class="form-group">
-          <label for="ticket-priority">Priorité :</label>
-          <select id="ticket-priority" name="priority" required>
-            <option value="">Sélectionnez une priorité</option>
-            <option value="haute">Haute</option>
-            <option value="moyenne">Moyenne</option>
-            <option value="basse">Basse</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="ticket-status">Statut :</label>
-          <select id="ticket-status" name="status" required>
-            <option value="">Sélectionnez un statut</option>
-            <option value="open">Ouvert</option>
-            <option value="in_progress">En cours</option>
-            <option value="closed">Fermé</option>
-          </select>
-        </div>
-
-        <div class="form-actions">
-          <button type="button" id="btn-sauvegarder">Sauvegarder</button>
-          <button type="button" id="btn-supprimer">Supprimer</button>
-          <button type="button" id="btn-annuler">Annuler</button>
-        </div>
-      </form>
-    </div>
-    </div>
-    <ul id="liste-tickets">
-    </ul>
+      <ul id="liste-tickets">
+      </ul>
   </main>
   <footer>
     <p id="pied-page">Usage exclusif à NovaTech Solutions,Copyright 2025 - Tous droits réservés</p>

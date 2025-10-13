@@ -1,5 +1,5 @@
 // Variables globales pour les éléments DOM
-let button_croissant, button_decroissant, button_titre, button_requester, button_priority, button_status, button_delete, button_update, liste_tickets;
+let button_croissant, button_decroissant, button_titre, button_requester, button_priority, button_status, liste_tickets;
 let formulaire_modification, btn_sauvegarder, btn_supprimer, btn_annuler, btn_charger_ticket;
 
 // Variables pour les formulaires de filtres
@@ -17,8 +17,6 @@ function initializeElements() {
   button_requester = document.getElementById('filtrer-par-requester');
   button_priority = document.getElementById('filtrer-par-priority');
   button_status = document.getElementById('filtrer-par-status');
-  button_delete = document.getElementById('delete-ticket');
-  button_update = document.getElementById('update-ticket');
   liste_tickets = document.getElementById('liste-tickets');
 
   // Éléments du formulaire de modification
@@ -82,12 +80,28 @@ function displayTickets(tickets) {
       <em>Statut:</em> ${ticket.status}<br>
       <em>Créé le:</em> ${ticket.createdAt}<br>
       <em>Mis à jour le:</em> ${ticket.updatedAt}
+      <button class="btn-modifier" data-ticket-id="${ticket.id}" data-ticket-title="${ticket.title}" data-ticket-description="${ticket.description}" data-ticket-requester="${ticket.requester}" data-ticket-priority="${ticket.priority}" data-ticket-status="${ticket.status}">
+        <img src="/crayon.jpg" alt="Modifier">
+      </button>
+      <button class="btn-supprimer" data-ticket-id="${ticket.id}" data-ticket-title="${ticket.title}">
+        <img src="/corbeille.jpg" alt="Supprimer">
+      </button>
     </li>
   `).join('');
 
   console.log('HTML généré:', htmlContent);
   liste_tickets.innerHTML = htmlContent;
   console.log('HTML inséré dans liste_tickets');
+
+  // Ajouter les événements aux boutons dynamiques
+  addDynamicButtonEvents();
+
+  // Debug: vérifier que les boutons sont présents
+  const buttons = document.querySelectorAll('.btn-modifier, .btn-supprimer');
+  console.log(`Nombre de boutons trouvés: ${buttons.length}`);
+  buttons.forEach((btn, index) => {
+    console.log(`Bouton ${index + 1}:`, btn.className, btn.querySelector('img')?.src);
+  });
 }
 
 // Charger tous les tickets au chargement de la page
@@ -192,20 +206,7 @@ function addEventListeners() {
     });
   }
 
-  // Ajouter les événements pour les modifications
-  if (button_delete) {
-    button_delete.addEventListener('click', function (e) {
-      e.preventDefault();
-      showModificationForm('delete');
-    });
-  }
-
-  if (button_update) {
-    button_update.addEventListener('click', function (e) {
-      e.preventDefault();
-      showModificationForm('update');
-    });
-  }
+  // Les événements pour les boutons de modification/suppression sont maintenant gérés dans addDynamicButtonEvents()
 
   // Événements du formulaire de modification
   if (btn_sauvegarder) {
@@ -415,17 +416,19 @@ async function filterByStatus() {
 }
 
 // Fonctions pour gérer le formulaire de modification
-function showModificationForm(action) {
+function showModificationForm(action, preserveData = false) {
   if (formulaire_modification) {
     formulaire_modification.style.display = 'block';
 
-    // Vider le formulaire
-    document.getElementById('ticket-id').value = '';
-    document.getElementById('ticket-title').value = '';
-    document.getElementById('ticket-description').value = '';
-    document.getElementById('ticket-requester').value = '';
-    document.getElementById('ticket-priority').value = '';
-    document.getElementById('ticket-status').value = '';
+    // Vider le formulaire seulement si on ne préserve pas les données
+    if (!preserveData) {
+      document.getElementById('ticket-id').value = '';
+      document.getElementById('ticket-title').value = '';
+      document.getElementById('ticket-description').value = '';
+      document.getElementById('ticket-requester').value = '';
+      document.getElementById('ticket-priority').value = '';
+      document.getElementById('ticket-status').value = '';
+    }
 
     // Ajuster les boutons selon l'action
     if (action === 'delete') {
@@ -493,9 +496,20 @@ async function saveTicket() {
     return;
   }
 
+  // Validation que l'ID est un nombre valide
+  if (isNaN(formData.id) || formData.id <= 0) {
+    alert('L\'ID du ticket doit être un nombre positif valide');
+    return;
+  }
+
+  // Confirmation avant modification
+  if (!confirm(`Êtes-vous sûr de vouloir modifier le ticket #${formData.id} ?`)) {
+    return;
+  }
+
   try {
     const response = await fetch('/api/updateTicket', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -531,7 +545,9 @@ async function deleteTicketFromForm() {
 
   if (confirm(`Êtes-vous sûr de vouloir supprimer le ticket #${id} ?`)) {
     try {
-      const response = await fetch(`/api/deleteTicket?id=${id}`);
+      const response = await fetch(`/api/deleteTicket?id=${id}`, {
+        method: 'DELETE'
+      });
       const data = await response.json();
 
       if (data.success) {
@@ -549,5 +565,90 @@ async function deleteTicketFromForm() {
     } catch (error) {
       alert('Erreur de connexion');
     }
+  }
+}
+
+// Fonction pour ajouter les événements aux boutons dynamiques
+function addDynamicButtonEvents() {
+  // Boutons de modification
+  const btnModifiers = document.querySelectorAll('.btn-modifier');
+  btnModifiers.forEach(button => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      const ticketId = this.getAttribute('data-ticket-id');
+      const ticketTitle = this.getAttribute('data-ticket-title');
+      const ticketDescription = this.getAttribute('data-ticket-description');
+      const ticketRequester = this.getAttribute('data-ticket-requester');
+      const ticketPriority = this.getAttribute('data-ticket-priority');
+      const ticketStatus = this.getAttribute('data-ticket-status');
+
+      // Afficher le formulaire en mode modification (sans vider les données)
+      showModificationForm('update', true);
+
+      // Pré-remplir le formulaire avec les données du ticket
+      console.log('Pré-remplissage du formulaire avec:', {
+        id: ticketId,
+        title: ticketTitle,
+        description: ticketDescription,
+        requester: ticketRequester,
+        priority: ticketPriority,
+        status: ticketStatus
+      });
+
+      document.getElementById('ticket-id').value = ticketId;
+      document.getElementById('ticket-title').value = ticketTitle;
+      document.getElementById('ticket-description').value = ticketDescription;
+      document.getElementById('ticket-requester').value = ticketRequester;
+      document.getElementById('ticket-priority').value = ticketPriority;
+      document.getElementById('ticket-status').value = ticketStatus;
+
+      console.log('Formulaire rempli. Valeurs actuelles:', {
+        id: document.getElementById('ticket-id').value,
+        title: document.getElementById('ticket-title').value,
+        description: document.getElementById('ticket-description').value,
+        requester: document.getElementById('ticket-requester').value,
+        priority: document.getElementById('ticket-priority').value,
+        status: document.getElementById('ticket-status').value
+      });
+    });
+  });
+
+  // Boutons de suppression
+  const btnSupprimers = document.querySelectorAll('.btn-supprimer');
+  btnSupprimers.forEach(button => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      const ticketId = this.getAttribute('data-ticket-id');
+      const ticketTitle = this.getAttribute('data-ticket-title');
+
+      // Demander confirmation
+      if (confirm(`Êtes-vous sûr de vouloir supprimer le ticket #${ticketId} - "${ticketTitle}" ?`)) {
+        deleteTicketDirectly(ticketId);
+      }
+    });
+  });
+}
+
+// Fonction pour supprimer directement un ticket
+async function deleteTicketDirectly(ticketId) {
+  try {
+    const response = await fetch(`/api/deleteTicket?id=${ticketId}`, {
+      method: 'DELETE'
+    });
+    const data = await response.json();
+
+    if (data.success) {
+      alert('Ticket supprimé avec succès');
+      // Recharger la liste
+      const refreshResponse = await fetch('/api/getAllTicketsDESC');
+      const refreshData = await refreshResponse.json();
+      if (refreshData.success) {
+        displayTickets(refreshData.result);
+      }
+    } else {
+      alert('Erreur lors de la suppression: ' + data.error);
+    }
+  } catch (error) {
+    alert('Erreur de connexion');
   }
 }

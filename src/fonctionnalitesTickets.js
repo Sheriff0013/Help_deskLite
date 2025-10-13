@@ -102,34 +102,38 @@ async function getAllTicketsDESC() {
 
 //Les tickets filtrés par status
 async function getTicketByStatus(status) {
+  const statusLower = status.toLowerCase();
   const sql = `SELECT * FROM ticket WHERE status = ?`;
   const allAsync = promisify(db.all.bind(db));
-  const allTickets = await allAsync(sql, [status]);
+  const allTickets = await allAsync(sql, [statusLower]);
   return allTickets;
 }
 
 
 //Les tickets filtrés par priorité
 async function getTicketByPriority(priority) {
+  const priorityLower = priority.toLowerCase();
   const sql = `SELECT * FROM ticket WHERE priority = ?`;
   const allAsync = promisify(db.all.bind(db));
-  const allTickets = await allAsync(sql, [priority]);
+  const allTickets = await allAsync(sql, [priorityLower]);
   return allTickets;
 }
 
 //Les ticket filtrés par requester
 async function getTicketByRequester(requester) {
-  const sql = `SELECT * FROM ticket WHERE requester = ?`;
+  const requesterLower = requester.toLowerCase();
+  const sql = `SELECT * FROM ticket WHERE LOWER(requester) LIKE ?`;
   const allAsync = promisify(db.all.bind(db));
-  const allTickets = await allAsync(sql, [requester]);
+  const allTickets = await allAsync(sql, [`%${requesterLower}%`]);
   return allTickets;
 }
 
 //Les tickets filtrés par titre
 async function getTicketByTitle(title) {
-  const sql = `SELECT * FROM ticket WHERE title = ?`;
+  const titleLower = title.toLowerCase();
+  const sql = `SELECT * FROM ticket WHERE LOWER(title) LIKE ?`;
   const allAsync = promisify(db.all.bind(db));
-  const allTickets = await allAsync(sql, [title]);
+  const allTickets = await allAsync(sql, [`%${titleLower}%`]);
   return allTickets;
 }
 

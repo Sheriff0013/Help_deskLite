@@ -173,6 +173,34 @@ button:hover {
   background-color: #0056b3;
 }
 
+/* Styles pour les boutons d'action sur chaque ticket */
+.btn-modifier, .btn-supprimer {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.btn-modifier:hover {
+  background-color: #e3f2fd;
+}
+
+.btn-supprimer:hover {
+  background-color: #ffebee;
+}
+
+.btn-modifier img, .btn-supprimer img {
+  width: 24px;
+  height: 24px;
+  display: block;
+  object-fit: contain;
+}
+
 /* Styles généraux */
 body {
   font-family: Arial, sans-serif;
@@ -390,5 +418,35 @@ nav a:hover {
 .formulaire-filtre #btn-annuler-filtre-priority:hover,
 .formulaire-filtre #btn-annuler-filtre-status:hover {
   background-color: #5a6268;
+}
+
+/* Styles pour les formulaires cachés */
+.formulaire-filtre {
+  display: none;
+}
+
+#formulaire-modification {
+  display: none;
+}
+
+/* Styles pour le champ ID en lecture seule */
+#ticket-id {
+  background-color: #f8f9fa !important;
+  color: #6c757d !important;
+}
+
+/* Styles pour le bouton "Charger les données" */
+#btn-charger-ticket {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#btn-charger-ticket:hover {
+  background-color: #138496;
 }
 

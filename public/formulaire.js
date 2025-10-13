@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // Validation côté client
-    if (!formData.title || !formData.description || !formData.requester) {
+    if (!formData.title || !formData.description || !formData.requester || !formData.priority) {
       alert('Veuillez remplir tous les champs qui sont obligatoires');
       return;
     }

@@ -1,0 +1,44 @@
+[
+
+  {
+    "id": 1,
+    "title": "Problème de connexion réseau",
+    "description": "Impossible de se connecter au serveur principal",
+    "requester": "Jean Dupont",
+    "priority": "haute",
+    "status": "open"
+  },
+  {
+    "id": 2,
+    "title": "Demande de nouveau compte utilisateur",
+    "description": "Création d'un compte pour le nouveau stagiaire",
+    "requester": "Marie Martin",
+    "priority": "moyenne",
+    "status": "open"
+  },
+  {
+    "id": 3,
+    "title": "Mise à jour du logiciel",
+    "description": "Mise à jour vers la version 2.1",
+    "requester": "Pierre Durand",
+    "priority": "basse",
+    "status": "closed"
+  },
+  {
+    "id": 4,
+    "title": "Bug dans l'interface utilisateur",
+    "description": "Le bouton de sauvegarde ne fonctionne pas",
+    "requester": "Sophie Bernard",
+    "priority": "haute",
+    "status": "in_progress"
+  },
+  {
+    "id": 5,
+    "title": "Formation sur le nouveau système",
+    "description": "Demande de formation pour l'équipe",
+    "requester": "Jean Dupont",
+    "priority": "moyenne",
+    "status": "closed"
+  }
+
+]

@@ -1,0 +1,642 @@
+{
+	"info": {
+		"_postman_id": "9dc3f781-5f1d-427e-b8ad-e4fa596699d9",
+		"name": "Tickets_Iterations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36278162"
+	},
+	"item": [
+		{
+			"name": "Ajouter ticket Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"le code du status est 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"le ticket est complet\", function () {\r",
+							"    pm.expect(pm.response.json().result).to.have.property('id');\r",
+							"    pm.expect(pm.response.json().result).to.have.property('title');\r",
+							"    pm.expect(pm.response.json().result).to.have.property('requester');\r",
+							"    pm.expect(pm.response.json().result).to.have.property('description');\r",
+							"    pm.expect(pm.response.json().result).to.have.property('priority');\r",
+							"\r",
+							"\r",
+							"\r",
+							"if(pm.response.code === 201){\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.variables.set('createdTicketId', responseJson.result.id);\r",
+							"}\r",
+							"\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{ticketN}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{adresse}}/addTicket",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"addTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "incomplet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400 for invalid data\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"\t});\r",
+							"\r",
+							"pm.test(\"Il y a un message d'erreur\", function () {\r",
+							"        const responseJson = pm.response.json();\r",
+							"\t\tpm.expect(responseJson).to.have.property('success', false);\r",
+							"\t\tpm.expect(responseJson).to.have.property('error');\r",
+							"\t\t});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"title\": \"\",\r\n\"description\": \"données incomplètes\",\r\n\"requester\": \"Void\",\r\n\"priority\": \"basse\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{adresse}}/addTicket",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"addTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Tickets Asc Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le statut de la réponse est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"La réponse est un tableau\", function () {\r",
+							"    pm.expect(pm.response.json().result).to.be.an('array');\r",
+							" });\r",
+							" pm.test(\"Le tableau n'est pas vide\", function () {\r",
+							"    pm.expect(pm.response.json().result).to.have.length.above(0);\r",
+							"});\r",
+							"pm.test(\"La réponse est triée par ordre croissant\", function () {\r",
+							"    const tickets = pm.response.json().result;\r",
+							"    for (let i = 0; i < tickets.length - 1; i++) {\r",
+							"        pm.expect(new Date(tickets[i].createdAt).getTime()).to.be.below(new Date(tickets[i + 1].createdAt).getTime())\r",
+							"    }\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{adresse}}/getAllTicketsASC",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"getAllTicketsASC"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Tickets DESC Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le statut de la réponse est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"La réponse est un tableau\", function () {\r",
+							"    pm.expect(pm.response.json().result).to.be.an('array');\r",
+							"});\r",
+							"pm.test(\"Le tableau n'est pas vide\", function () {\r",
+							"pm.expect(pm.response.json().result).to.have.length.above(0);\r",
+							"    \r",
+							"});\r",
+							"pm.test(\"La réponse est triée par ordre décroissant\", function () {\r",
+							"    const tickets = pm.response.json().result;\r",
+							"    for (let i = 0; i < tickets.length - 1; i++) {\r",
+							"        pm.expect(new Date(tickets[i].createdAt).getTime()).to.be.above(new Date(tickets[i + 1].createdAt).getTime())\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{adresse}}/getAllTicketsDESC",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"getAllTicketsDESC"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get by titre Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le statut de la réponse est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Les requetes contiennent 'utilisateur\", function() {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    responseJson.result.forEach(ticketN => {\r",
+							"        pm.expect(ticketN.title.toLowerCase()).to.include('utilisateur');\r",
+							"    })\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{adresse}}/getTicketByTitle?title=utilisateur",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"getTicketByTitle"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "utilisateur"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get by author Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le statut de la réponse est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Les tickets contiennent l'auteur Dupont \", function () {\r",
+							"    const reponseJson = pm.response.json();\r",
+							"    reponseJson.result.forEach(ticket => {\r",
+							"        pm.expect(ticket.requester.toLowerCase()).to.include(\"dupont\");\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{adresse}}/getTicketByRequester?requester=dupont",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"getTicketByRequester"
+					],
+					"query": [
+						{
+							"key": "requester",
+							"value": "dupont"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get by status Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le statut de la réponse est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Les tickets contiennent le status ouvert \", function () {\r",
+							"    const reponseJson = pm.response.json();\r",
+							"    reponseJson.result.forEach(ticket => {\r",
+							"        pm.expect(ticket.status.toLowerCase()).to.include(\"open\");\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{adresse}}/getTicketByStatus?status=open",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"getTicketByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "open"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get by prioriry Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le statut de la réponse est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"la réponse a la priorité haute\", function () {\r",
+							"    const reponseJson = pm.response.json();\r",
+							"    reponseJson.result.forEach(ticketN => {\r",
+							"        pm.expect(ticketN.priority).to.equal(\"haute\");\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{adresse}}/getTicketByPriority?priority=haute",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"getTicketByPriority"
+					],
+					"query": [
+						{
+							"key": "priority",
+							"value": "haute"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    const responseJson = pm.response.json();\r",
+							"pm.test(\"Le code du status est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Le contenu de la réponse est complet\", function () {\r",
+							"    if(responseJson.result){\r",
+							"    pm.expect(responseJson.result).to.have.property('id')\r",
+							"    pm.expect(responseJson.result).to.have.property('title')\r",
+							"    pm.expect(responseJson.result).to.have.property('description')\r",
+							"    pm.expect(responseJson.result).to.have.property('requester')\r",
+							"    pm.expect(responseJson.result).to.have.property('status')\r",
+							"\r",
+							"    }\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{adresse}}/getTicketById?id={{createdTicketId}}",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"getTicketById"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{createdTicketId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update invalide",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le ticket mis a jour retourne erreur 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Le ticket mis a jour retourne un message d'erreur\", function () {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.have.property(\"success\", false);\r",
+							"    pm.expect(responseJson).to.have.property(\"error\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"99999\",\r\n    \"title\": \"\",\r\n    \"description\": \"\",\r\n    \"requester\": \"\",\r\n    \"priority\": \"\",\r\n    \"status\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{adresse}}/updateTicket",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"updateTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code statut doit être 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Le ticket doit être modifié\", function () {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.have.property(\"success\", true);\r",
+							"    pm.expect(responseJson.result).to.have.property('changes');\r",
+							"    pm.expect(responseJson.result.changes).to.be.at.least(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"{{createdTicketId}}\",\r\n    \"title\": \"nouveau titre\",\r\n    \"description\": \"nouvelle description\",\r\n    \"requester\": \"new requester\",\r\n    \"priority\": \"basse\",\r\n    \"status\": \"in_progress\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{adresse}}/updateTicket",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"updateTicket"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"pm.test(\"Le code statut doit être 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Le ticket doit être supprimé\", function () {\r",
+							"    pm.expect(responseJson).to.have.property(\"success\", true);\r",
+							"});\r",
+							"pm.expect(responseJson.result).to.have.property('changes');\r",
+							"pm.expect(responseJson.result.changes).to.be.at.least(1);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{adresse}}/deleteTicket?id={{createdTicketId}}",
+					"host": [
+						"{{adresse}}"
+					],
+					"path": [
+						"deleteTicket"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{createdTicketId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"const title = pm.iterationData.get(\"title\")\r",
+					"const description = pm.iterationData.get(\"description\")\r",
+					"const requester = pm.iterationData.get(\"requester\")\r",
+					"const priority = pm.iterationData.get(\"priority\")\r",
+					"const status = pm.iterationData.get(\"status\")\r",
+					"\r",
+					"pm.variables.set(\"title\", title)\r",
+					"pm.variables.set(\"description\", description)\r",
+					"pm.variables.set(\"requester\", requester)\r",
+					"pm.variables.set(\"priority\", priority)\r",
+					"pm.variables.set(\"status\", status)\r",
+					"\r",
+					"const ticketData = {\r",
+					"    title: title,\r",
+					"    description: description,\r",
+					"    requester: requester,\r",
+					"    priority: priority\r",
+					"}\r",
+					"\r",
+					"pm.variables.set(\"ticketN\", JSON.stringify(ticketData))"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"let bodyText = pm.response.text();"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "adresse",
+			"value": "http://localhost:3000/api"
+		}
+	]
+}

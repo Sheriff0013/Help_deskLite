@@ -33,12 +33,12 @@
   },
   "homepage": "https://github.com/Sheriff0013/Help_deskLite#readme",
   "dependencies": {
-    "cypress": "^15.4.0",
     "express": "^5.1.0",
     "nodemon": "^3.1.10",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "cypress": "^15.5.0",
     "jest": "^30.2.0",
     "newman": "^6.0.0"
   }

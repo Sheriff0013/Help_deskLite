@@ -75,7 +75,7 @@ function displayTickets(tickets) {
     <li>
       <strong>#${ticket.id} - ${ticket.title}</strong><br>
       <em>Description:</em> ${ticket.description}<br>
-      <em>Demandeur:</em> ${ticket.requester}<br>
+      <em>Auteur:</em> ${ticket.requester}<br>
       <em>Priorité:</em> ${ticket.priority}<br>
       <em>Statut:</em> ${ticket.status}<br>
       <em>Créé le:</em> ${ticket.createdAt}<br>
@@ -362,7 +362,7 @@ async function filterByRequester() {
       displayTickets(data.result);
       hideAllFilterForms();
     } else {
-      liste_tickets.innerHTML = '<li>Aucun ticket trouvé pour ce demandeur</li>';
+      liste_tickets.innerHTML = '<li>Aucun ticket trouvé pour cet auteur</li>';
     }
   } catch (error) {
     liste_tickets.innerHTML = '<li>Erreur de connexion</li>';

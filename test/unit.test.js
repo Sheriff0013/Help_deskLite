@@ -389,4 +389,3 @@ describe('Fonctionnalités Tickets - Tests avec jeu de données complet', () => 
     });
   });
 });
-

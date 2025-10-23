@@ -23,7 +23,7 @@
     <div id="voir-tickets">
       <h3 id="titre-liste">Liste des tickets</h3>
 
-      <!-- Section responsive pour les boutons de tri et modification -->
+      <!-- Section responsive pour les boutons de tri -->
       <div class="section-boutons-principaux">
         <div class="boutons-tri">
           <h4>Afficher tous les tickets</h4>
@@ -36,8 +36,8 @@
           <div class="boutons-filtres">
             <button id="filtrer-par-titre">filtrés par titre</button>
             <button id="filtrer-par-requester">filtrés par auteur</button>
-            <button id="filtrer-par-priority">filtrés par priority</button>
-            <button id="filtrer-par-status">filtrés par status</button>
+            <button id="filtrer-par-priority">filtrés par priorité</button>
+            <button id="filtrer-par-status">filtrés par statut</button>
           </div>
 
           <!-- Formulaires de filtres cachés, avec dysplay none -->
@@ -56,11 +56,11 @@
           </div>
 
           <div id="formulaire-filtre-requester" class="formulaire-filtre">
-            <h4>Filtrer par demandeur</h4>
+            <h4>Filtrer par auteur</h4>
             <form id="form-filtre-requester">
               <div class="form-group">
                 <label for="filtre-requester">Nom de l'auteur :</label>
-                <input type="text" id="filtre-requester" name="requester" placeholder="Entrez le nom du demandeur">
+                <input type="text" id="filtre-requester" name="requester" placeholder="Entrez le nom de l'auteur">
               </div>
               <div class="form-actions">
                 <button type="button" id="btn-filtrer-requester">Filtrer</button>
@@ -129,7 +129,7 @@
             </div>
 
             <div class="form-group">
-              <label for="ticket-requester">Demandeur :</label>
+              <label for="ticket-requester">Auteur :</label>
               <input type="text" id="ticket-requester" name="requester" required>
             </div>
 
